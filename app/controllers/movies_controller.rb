@@ -1,5 +1,7 @@
 class MoviesController < ApplicationController
 
+  attr_reader :all_ratings
+
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
@@ -11,8 +13,28 @@ class MoviesController < ApplicationController
   end
 
   def index
-    id = params[:sort]
-    @movies = Movie.order(id)
+    @all_ratings = Movie.GetRatings
+    
+    if params[:ratings] != [] and params[:ratings] != nil
+      @ratingsSelected = params[:ratings].keys
+    end
+    
+    print "params ratings = " 
+    print params[:ratings].inspect
+    puts
+    print "Ratings Selected = " 
+    print @ratingsSelected.inspect
+    puts
+    
+    if @ratingsSelected
+      @movies = Movie.where(rating: params[:ratings].keys)
+    else
+      @movies = Movie.all
+    end
+    
+    if params[:sort]
+      @movies = @movies.order(params[:sort])
+    end
     
     if params[:sort] == "title"
       @title_header = :hilite
@@ -21,6 +43,7 @@ class MoviesController < ApplicationController
     if params[:sort] == "release_date"
       @release_date_header = :hilite
     end
+    
   end
 
   def new
