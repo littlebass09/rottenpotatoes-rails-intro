@@ -17,17 +17,11 @@ class MoviesController < ApplicationController
     
     if params[:ratings] != [] and params[:ratings] != nil
       @ratingsSelected = params[:ratings].keys
+      session[:ratings_selected] = @ratingsSelected
     end
     
-    print "params ratings = " 
-    print params[:ratings].inspect
-    puts
-    print "Ratings Selected = " 
-    print @ratingsSelected.inspect
-    puts
-    
-    if @ratingsSelected
-      @movies = Movie.where(rating: params[:ratings].keys)
+    if session[:ratings_selected]
+      @movies = Movie.where(rating: session[:ratings_selected])
     else
       @movies = Movie.all
     end
