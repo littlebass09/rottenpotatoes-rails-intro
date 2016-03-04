@@ -41,7 +41,8 @@ class MoviesController < ApplicationController
     end
     
     if session[:heading_selecetd]
-      @movies = @movies.order(session[:heading_selected])
+      #@movies = @movies.order(session[:heading_selected])
+      @movies = @movies.order(params[:sort])
     end
     
   end
