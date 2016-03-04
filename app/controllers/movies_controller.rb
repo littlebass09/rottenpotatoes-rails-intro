@@ -26,6 +26,10 @@ class MoviesController < ApplicationController
       @movies = Movie.all
     end
     
+    if params[:sort] == "none"
+      session[:heading_selected] = nil
+    end
+    
     if params[:sort] != "release_date"
       if params[:sort] == "title" or session[:heading_selected] == "title"
         @title_header = :hilite
