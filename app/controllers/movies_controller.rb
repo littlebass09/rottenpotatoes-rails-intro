@@ -26,16 +26,22 @@ class MoviesController < ApplicationController
       @movies = Movie.all
     end
     
-    if params[:sort]
-      @movies = @movies.order(params[:sort])
+    if params[:sort] != "release_date"
+      if params[:sort] == "title" or session[:heading_selected] == "title"
+        @title_header = :hilite
+        session[:heading_selected] = "title"
+      end
+    end    
+    
+    if params[:sort] != "title"
+      if params[:sort] == "release_date" or session[:heading_selected] == "release_date"
+        @release_date_header = :hilite
+        session[:heading_selected] = "release_date"
+      end
     end
     
-    if params[:sort] == "title"
-      @title_header = :hilite
-    end
-    
-    if params[:sort] == "release_date"
-      @release_date_header = :hilite
+    if session[:heading_selecetd]
+      @movies = @movies.order(session[:heading_selected])
     end
     
   end
