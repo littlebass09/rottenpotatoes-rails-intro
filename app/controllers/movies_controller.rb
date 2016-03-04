@@ -31,7 +31,7 @@ class MoviesController < ApplicationController
         @title_header = :hilite
         session[:heading_selected] = "title"
       end
-    end    
+    end
     
     if params[:sort] != "title"
       if params[:sort] == "release_date" or session[:heading_selected] == "release_date"
