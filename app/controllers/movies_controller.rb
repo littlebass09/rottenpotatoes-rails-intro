@@ -20,15 +20,16 @@ class MoviesController < ApplicationController
       session[:ratings_selected] = @ratingsSelected
     end
     
+    if params[:clear]
+      session.clear
+    end
+    
     if session[:ratings_selected]
       @movies = Movie.where(rating: session[:ratings_selected])
     else
       @movies = Movie.all
     end
     
-    if params[:sort] == "none"
-      session[:heading_selected] = nil
-    end
     
     if params[:sort] != "release_date"
       if params[:sort] == "title" or session[:heading_selected] == "title"
